@@ -5,11 +5,7 @@ module.exports = {
     "node": true
   },
   "parserOptions": {
-    "sourceType": "module",
-    "ecmaVersion": 6,
-    "ecmaFeatures": {
-      "impliedStrict": true
-    },
+    "ecmaVersion": 5
   },
   "extends": "eslint:recommended",
   "globals": {
@@ -50,7 +46,7 @@ module.exports = {
     "use-isnan": 2,
     "valid-jsdoc": 0,
     "valid-typeof": 2,
-    "strict": [2, "global"],
+    "strict": 0,
 
     // Best practices
     "accessor-pairs": 0,
