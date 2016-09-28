@@ -1,0 +1,29 @@
+{
+  "name": "substance-docgen",
+  "version": "0.1.0",
+  "description": "Substance Documentation generator.",
+  "main": "index.js",
+  "scripts": {
+    "pre-publish": "node make"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/substance/docgen.git"
+  },
+  "keywords": [
+    "jsdoc",
+    "dox"
+  ],
+  "author": "Oliver Buchtala",
+  "license": "MIT",
+  "devDependencies": {
+    "browserify": "^13.1.0",
+    "commonmark": "0.22.1",
+    "dox": "substance/dox#b537b882ca0b2ffd512ae94f5d19909cce3ed911",
+    "glob": "^7.1.0",
+    "highlight.js": "9.4.0",
+    "lodash": "^4.16.2",
+    "substance": "substance/substance#v1.0.0-beta.4",
+    "substance-bundler": "^0.4.20"
+  }
+}
