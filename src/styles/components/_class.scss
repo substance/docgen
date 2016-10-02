@@ -1,0 +1,20 @@
+.sc-class {
+
+  > .se-description {
+    margin-bottom: $node-margin-bottom;
+  }
+
+  > .se-constructor {
+    margin-bottom: $node-margin-bottom;
+  }
+
+  > .sc-example {
+    margin-bottom: $subsection-margin-bottom;
+  }
+
+  > .sc-params {
+    margin-bottom: $node-margin-bottom;
+  }
+
+  margin-bottom: $subsection-margin-bottom;
+}
