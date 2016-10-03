@@ -10,8 +10,8 @@ window.onload = function() {
   var configurator = new Configurator().import(DocumentationReaderPackage)
   var doc = importDocumentation(window.DOCGEN_DATA)
   window.doc = doc
-  Component.mount(DocumentationReader, {
+  DocumentationReader.mount({
     doc: doc,
     configurator: configurator
-  }, 'body')
+  }, window.document.body)
 }

@@ -27,7 +27,7 @@ b.task('vendor', function() {
 
 b.task('api', function() {
   b.js('./src/docgen.js', {
-    external: ['substance', {
+    external: ['glob', 'fs', 'substance', {
       global: 'vendor',
       path: path.resolve(__dirname, 'dist', 'vendor.js')
     }],
@@ -44,6 +44,7 @@ b.task('api', function() {
 b.task('reader', function() {
   b.copy('./src/index.html', './dist/reader/')
   b.copy('node_modules/font-awesome', './dist/reader/font-awesome')
+  b.copy('node_modules/substance/dist', './dist/reader/substance')
   b.custom('Bundling reader.css ...', {
     src: './src/reader.scss',
     dest: './dist/reader/reader.css',
@@ -55,6 +56,7 @@ b.task('reader', function() {
     }
   })
   b.js('./src/reader.js', {
+    ignore: [ 'substance-cheerio' ],
     external: ['substance', {
       global: 'vendor',
       path: path.resolve(__dirname, 'dist', 'vendor.js')

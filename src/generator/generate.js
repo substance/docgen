@@ -1,6 +1,11 @@
+require('source-map-support').install()
+
 import fs from 'fs'
-import { glob } from '../vendor'
+import glob from 'glob'
 import generateDocumentation from './generateDocumentation'
+import { JSONConverter } from 'substance'
+
+const converter = new JSONConverter()
 
 function generate(config) {
   let fileList = []
@@ -8,7 +13,7 @@ function generate(config) {
     switch(item.type) {
       case 'cover':
       case 'chapter':
-        fileList.push(item.src)
+        if (item.src) fileList.push(item.src)
         break
       case 'api':
         fileList = fileList.concat(glob.sync(item.pattern))
@@ -22,7 +27,8 @@ function generate(config) {
     const src = fs.readFileSync(fileId, 'utf8')
     sources[fileId] = src
   })
-  const doc = generateDocumentation(sources)
+  const doc = generateDocumentation(config, sources)
+  return converter.exportDocument(doc)
 }
 
 export default generate

@@ -28,9 +28,14 @@ class DocumentationGenerator {
         }
       }
     })
+    const body = this.doc.get('body')
     const walker = new Walker(this.doc, fileId, comments)
     walker.walk(ast)
-    this.doc.get('body').nodes.push(walker._fileNode.id)
+    const fileNode = walker._fileNode
+    // only show nodes with documented content
+    if (fileNode.members.length > 0) {
+      body.nodes.push(fileNode.id)
+    }
   }
 }
 
@@ -68,7 +73,10 @@ class Walker {
         this.leave(node)
         break
       case 'ClassDeclaration':
-        this._class(node, comment)
+        if (this._class(node, comment) === false) {
+          context.skip()
+          this.leave(node)
+        }
         break
       // method = member function
       case 'MethodDefinition':
@@ -162,7 +170,7 @@ class Walker {
 
   _class(node, comment) {
     // skip undocumented classes
-    if (!comment) return
+    if (!comment) return false
     const module = this._fileNode
     const name = node.id.name
     const superClass = node.superClass ? node.superClass.name : null
