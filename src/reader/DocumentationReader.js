@@ -105,31 +105,32 @@ class DocumentationReader extends Component {
   }
 
   _renderContextSection($$) {
-    var el = $$('div')
+    const el = $$('div')
       .addClass('se-context-section')
       .ref('contextSection')
-      .append(
-        $$(TOC)
-      )
+
+    el.append($$(TOC))
 
     return el
   }
 
   _renderMainSection($$) {
     var config = this.config
-    var doc = this.props.doc
-    var meta = doc.get('meta')
+    const doc = this.props.doc
+    const cover = doc.get('cover')
 
-    return $$('div').ref('main').addClass('se-main-section').append(
-      $$(ScrollPane, {
-        tocProvider: this.tocProvider
-      }).ref('contentPanel').append(
-        $$(Cover, {node: meta}).ref('cover'),
-        $$(ContainerRenderer, {
-          containerId: config.containerId
-        }).ref('containerRenderer')
-      )
+    const main = $$('div').ref('main').addClass('se-main-section')
+    const body = $$(ScrollPane, {
+      tocProvider: this.tocProvider
+    }).ref('contentPanel')
+
+    if (cover) body.append($$(Cover, {node: cover}).ref('cover'))
+    body.append(
+      $$(ContainerRenderer, { containerId: config.containerId }).ref('containerRenderer')
     )
+    main.append(body)
+
+    return main
   }
 
   _updateScrollPosition() {

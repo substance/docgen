@@ -1,6 +1,6 @@
-import DocumentedNode from './DocumentedNode'
+import APINode from './APINode'
 
-class EventNode extends DocumentedNode {}
+class EventNode extends APINode {}
 
 EventNode.type = 'event'
 

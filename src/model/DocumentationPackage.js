@@ -1,4 +1,6 @@
 import Documentation from './Documentation'
+import CoverNode from './CoverNode'
+import ChapterNode from './ChapterNode'
 import FileNode from './FileNode'
 import MetaNode from './MetaNode'
 import ModuleNode from './ModuleNode'
@@ -17,6 +19,8 @@ export default {
       ArticleClass: Documentation,
       defaultTextType: 'paragraph'
     })
+    config.addNode(CoverNode)
+    config.addNode(ChapterNode)
     config.addNode(FileNode)
     config.addNode(MetaNode)
     config.addNode(ModuleNode)

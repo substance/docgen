@@ -1,6 +1,6 @@
 import { Document, Configurator } from 'substance'
 import MemberIndex from './MemberIndex'
-import DocumentationModelPackage from './DocumentationModelPackage'
+import DocumentationPackage from './DocumentationPackage'
 
 class Documentation extends Document {
 
@@ -61,7 +61,7 @@ Documentation.getNodeInfo = function(node) {
 
 function getSchema() {
   const config = new Configurator()
-  config.import(DocumentationModelPackage)
+  config.import(DocumentationPackage)
   return config.getSchema()
 }
 

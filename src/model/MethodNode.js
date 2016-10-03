@@ -1,6 +1,6 @@
-import DocumentedNode from './DocumentedNode'
+import APINode from './APINode'
 
-class MethodNode extends DocumentedNode {}
+class MethodNode extends APINode {}
 
 MethodNode.type = 'method'
 

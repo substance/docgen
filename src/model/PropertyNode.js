@@ -1,6 +1,6 @@
-import DocumentedNode from './DocumentedNode'
+import APINode from './APINode'
 
-class PropertyNode extends DocumentedNode {}
+class PropertyNode extends APINode {}
 
 PropertyNode.type = 'property'
 

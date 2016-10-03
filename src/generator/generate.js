@@ -1,16 +1,28 @@
 import fs from 'fs'
-import DocumentationGenerator from './DocumentationGenerator'
+import { glob } from '../vendor'
+import generateDocumentation from './generateDocumentation'
 
-// TODO: discuss in which way we want to control
-// the generator. E.g., one option could be to provide a sequence
-// of md and js files, so that the md files can be used as chapters
-function generate(files) {
-  const generator = new DocumentationGenerator()
-  files.forEach(function(file) {
-    var src = fs.readFileSync(file, 'utf8')
-    generator.addJS(file, src)
+function generate(config) {
+  let fileList = []
+  config.content.forEach(function(item) {
+    switch(item.type) {
+      case 'cover':
+      case 'chapter':
+        fileList.push(item.src)
+        break
+      case 'api':
+        fileList = fileList.concat(glob.sync(item.pattern))
+        break;
+      default:
+        console.error('Unsupported item', item.type)
+    }
   })
-  return generator.doc
+  const sources = {}
+  fileList.forEach(function(fileId) {
+    const src = fs.readFileSync(fileId, 'utf8')
+    sources[fileId] = src
+  })
+  const doc = generateDocumentation(sources)
 }
 
 export default generate

@@ -1,4 +1,4 @@
-import DocumentedNode from './DocumentedNode'
+import APINode from './APINode'
 import MemberContainerMixin from './MemberContainerMixin'
 
 var MEMBER_CATEGORIES = {
@@ -7,7 +7,7 @@ var MEMBER_CATEGORIES = {
   'properties': {name: 'properties', path: ['property']},
 }
 
-class ModuleNode extends DocumentedNode {
+class ModuleNode extends APINode {
   getMemberCategories() {
     return MEMBER_CATEGORIES
   }

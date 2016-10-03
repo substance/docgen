@@ -15,12 +15,6 @@ class HeadingComponent extends Component {
     var headerEl = $$('a').attr({href: '#'}).addClass('se-header')
         .on('click', this.onClick)
 
-    if (this.props.parent) {
-      headerEl.append(
-        $$('span').addClass('se-namespace').append(this.props.parent)
-      )
-    }
-
     // name
     headerEl.append(
       $$('span').addClass('se-name').append(this.props.name || name)

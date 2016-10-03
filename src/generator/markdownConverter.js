@@ -1,10 +1,10 @@
 import { commonmark, highlightjs } from '../vendor'
 import CrossLinkComponent from '../reader/CrossLinkComponent'
 
-var reader = new commonmark.Parser()
-var writer = new commonmark.HtmlRenderer()
+const reader = new commonmark.Parser()
+const writer = new commonmark.HtmlRenderer()
 
-var converter = {
+const converter = {
   toHtml: function(text) {
     var parsed = reader.parse(text)
     highlightCodeblocks(parsed)
@@ -15,15 +15,15 @@ var converter = {
 }
 
 function highlightCodeblocks(parsed) {
-  var walker = parsed.walker()
-  var event, node
+  const walker = parsed.walker()
+  let event, node
   while ((event = walker.next())) {
     node = event.node
     if (node.type === 'CodeBlock') {
-      var info = node.info ? node.info.split(/\s+/) : []
-      var lang = info[0]
-      var highlighted
-      var classes = ['hljs']
+      const info = node.info ? node.info.split(/\s+/) : []
+      const lang = info[0]
+      let highlighted
+      const classes = ['hljs']
 
       if (lang) {
         highlighted = highlightjs.highlight(lang, node.literal).value
@@ -32,7 +32,7 @@ function highlightCodeblocks(parsed) {
         highlighted = highlightjs.highlightAuto(node.literal).value
       }
 
-      var htmlBlock = new commonmark.Node('HtmlBlock', node.sourcepos)
+      const htmlBlock = new commonmark.Node('HtmlBlock', node.sourcepos)
       htmlBlock.literal = ['<pre>', '<code class="'+classes.join(' ')+'">', highlighted, '</code>', '</pre>'].join('')
       node.insertBefore(htmlBlock)
       node.unlink()
@@ -41,17 +41,17 @@ function highlightCodeblocks(parsed) {
 }
 
 function makeLinksExternal(parsed) {
-  var walker = parsed.walker()
-  var event, node
+  const walker = parsed.walker()
+  let event, node
   while ((event = walker.next())) {
     node = event.node
     if (event.entering && node.type === 'Link') {
-      var href = node.destination
-      var text = href
+      const href = node.destination
+      let text = href
       if (node.firstChild) {
         text = node.firstChild.literal
       }
-      var el = new commonmark.Node('Html')
+      const el = new commonmark.Node('Html')
       el.literal = ['<a href="', href, '" target="_blank">', text, '</a>'].join('')
       node.insertBefore(el)
       node.unlink()
@@ -60,35 +60,35 @@ function makeLinksExternal(parsed) {
 }
 
 function convertCodeLinks(parsed) {
-  var walker = parsed.walker()
-  var event, node
-  var sourceposPre, sourceposLink, sourceposPost
+  const walker = parsed.walker()
+  let event, node
+  let sourceposPre, sourceposLink, sourceposPost
   while ((event = walker.next())) {
     node = event.node
     if (node.type === 'Text') {
-      var re = /(\{\s*@link([^\}]*)\})/
-      var match = re.exec(node.literal)
+      const re = /(\{\s*@link([^\}]*)\})/
+      let match = re.exec(node.literal)
       while (match) {
         sourceposPre = undefined
         sourceposLink = undefined
         sourceposPost = undefined
         if (node.sourcepos) {
-          var startLine = node.sourcepos[0][0]
-          var startCol = node.sourcepos[0][1]
-          var matchStart = startCol+match.index
-          var matchEnd = matchStart+match[0].length
+          const startLine = node.sourcepos[0][0]
+          const startCol = node.sourcepos[0][1]
+          const matchStart = startCol+match.index
+          const matchEnd = matchStart+match[0].length
           sourceposPre = [node.sourcepos[0], [startLine, matchStart]]
           sourceposLink = [[startLine, matchStart], [startLine, matchEnd]]
           sourceposPost = [[startLine, matchEnd], node.sourcepos[1]]
         }
-        var id = match[2].trim()
-        var pre = new commonmark.Node('Text', sourceposPre)
+        const id = match[2].trim()
+        const pre = new commonmark.Node('Text', sourceposPre)
         pre.literal = node.literal.slice(0, match.index)
-        var link = new commonmark.Node('Html', sourceposLink)
+        const link = new commonmark.Node('Html', sourceposLink)
         // Note: using server-side rendering here
-        var crossLink = CrossLinkComponent.render({ node: { id: id }, children: [id]})
+        const crossLink = CrossLinkComponent.render({ node: { id: id }, children: [id]})
         link.literal = crossLink.outerHTML
-        var post = new commonmark.Node('Text', sourceposPost)
+        const post = new commonmark.Node('Text', sourceposPost)
         post.literal = node.literal.slice(match.index+match[0].length)
         node.insertBefore(pre)
         node.insertBefore(link)

@@ -1,4 +1,4 @@
-import DocumentedNode from './DocumentedNode'
+import APINode from './APINode'
 import MemberContainerMixin from './MemberContainerMixin'
 
 const MEMBER_CATEGORIES = {
@@ -14,7 +14,7 @@ const MEMBER_CATEGORIES = {
 // var INHERITED = ['instance-methods', 'instance-properties', 'class-methods', 'class-properties']
 const INHERITED = ['instance-methods', 'instance-properties']
 
-class ClassNode extends DocumentedNode {
+class ClassNode extends APINode {
 
   getSpecificType() {
     if (this.isAbstract) return 'abstract-class'

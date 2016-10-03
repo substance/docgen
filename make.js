@@ -75,13 +75,14 @@ b.task('example', function() {
   b.copy('./node_modules/font-awesome', '.example/font-awesome')
   b.copy('./dist/reader/reader.css', '.example/')
   b.custom('Creating data file...', {
-    src: './example/@(model|ui)/**/*.js',
+    src: 'example/**/@(*.js|*.md)',
     dest: '.example/data.js',
     execute: function(files) {
       var data = {}
       files.forEach(function(file) {
         var src = fs.readFileSync(file).toString()
-        var fileId = path.relative(path.join(__dirname, 'example'), file)
+        var fileId = path.relative(__dirname, file)
+        fileId = fileId.replace(/\\/g, '/')
         data[fileId] = src
       })
       fs.writeFileSync('.example/data.js', "window.SOURCES = " + JSON.stringify(data))

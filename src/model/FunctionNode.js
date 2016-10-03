@@ -1,6 +1,6 @@
-import DocumentedNode from './DocumentedNode'
+import APINode from './APINode'
 
-class FunctionNode extends DocumentedNode {
+class FunctionNode extends APINode {
   getParent() {
     return this.document.get(this.parent)
   }

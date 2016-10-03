@@ -1,5 +1,6 @@
 import { BasePackage } from 'substance'
-import DocumentationModelPackage from '../model/DocumentationModelPackage'
+import DocumentationPackage from '../model/DocumentationPackage'
+import ChapterComponent from './ChapterComponent'
 import FileComponent from './FileComponent'
 import FunctionComponent from './FunctionComponent'
 import ClassComponent from './SubstanceClassComponent'
@@ -13,8 +14,9 @@ export default {
   name: 'documentation',
   configure: function(config) {
     config.import(BasePackage)
-    config.import(DocumentationModelPackage)
+    config.import(DocumentationPackage)
 
+    config.addComponent('chapter', ChapterComponent)
     config.addComponent('file', FileComponent)
     config.addComponent('function', FunctionComponent)
     config.addComponent('class', ClassComponent)

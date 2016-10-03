@@ -1,40 +1,43 @@
 import { TOCProvider } from 'substance'
-import forEach from 'lodash/forEach'
 
+// Documentation consists of chapters and APINodes.
+// The TOC shows chapter titles and names of functions and classes
 class DocumentationTOCProvider extends TOCProvider {
 
   computeEntries() {
-    var doc = this.getDocument()
-    var config = this.config
-
-    var entries = []
-    var contentNodes = doc.get('body').nodes
-
-    contentNodes.forEach(function(nsId) {
-      var ns = doc.get(nsId)
-      entries.push({
-        id: nsId,
-        name: ns.name,
-        level: 1,
-        node: ns
-      })
-
-      forEach(ns.getMemberCategories(), function(cat) {
-        var catMembers = ns.getCategoryMembers(cat, config)
-        catMembers.forEach(function(catMember) {
-          entries.push({
-            id: catMember.id,
-            name: catMember.name,
-            level: 2,
-            node: catMember
-          })
-        })
-      })
-    })
+    const doc = this.getDocument()
+    let entries = []
+    let queue = doc.get('body').nodes.slice()
+    let level = 0
+    while (queue.length >0) {
+      const id = queue.shift()
+      const node = doc.get(id)
+      const entry = {
+        id: node.id,
+        level: level+1,
+        node: node
+      }
+      switch (node.type) {
+        case 'chapter':
+          entry.name = node.title
+          entry.level = node.level
+          level = node.level
+          break
+        case 'file':
+          // FileNodes do not appear in the TOC, instead their content is flattened
+          queue = node.members.concat(queue)
+          continue
+        case 'class':
+        case 'function':
+          entry.name = node.name
+          break
+        default:
+          continue
+      }
+      entries.push(entry)
+    }
     return entries
   }
 }
-
-DocumentationTOCProvider.tocTypes = ['module', 'class', 'function']
 
 export default DocumentationTOCProvider

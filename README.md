@@ -1,3 +1,4 @@
-# Substance Binder
+# Substance Documentation Generator
 
-Documentation generator built with Substance on top of `dox`.
+A custom documentation generator which allows to combine narratives and generated API documentation.
+

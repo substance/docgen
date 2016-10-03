@@ -1,6 +1,6 @@
-import DocumentedNode from './DocumentedNode'
+import APINode from './APINode'
 
-class ConstructorNode extends DocumentedNode {}
+class ConstructorNode extends APINode {}
 
 // ATTENTION: we have to use 'ctor' has constructor is a key property of
 // every object
