@@ -1,32 +1,28 @@
+// Font-awesome
 $fa-font-path:  "./font-awesome/fonts" !default;
 @import "../node_modules/font-awesome/scss/font-awesome";
 
-// Substance base styles
-@import '../node_modules/substance/styles/base/index';
-
-// Substance core and official packages
-@import '../node_modules/substance/styles/components/_all';
-@import '../node_modules/substance/packages/_all';
-
-// DocumentationReader component styles
-@import '../node_modules/substance/doc/styles/_variables';
-@import '../node_modules/substance/doc/styles/_globals';
-@import '../node_modules/substance/doc/styles/components/_namespace';
-@import '../node_modules/substance/doc/styles/components/_class';
-@import '../node_modules/substance/doc/styles/components/_module';
-@import '../node_modules/substance/doc/styles/components/_function';
-@import '../node_modules/substance/doc/styles/components/_heading';
-@import '../node_modules/substance/doc/styles/components/_method';
-@import '../node_modules/substance/doc/styles/components/_property';
-@import '../node_modules/substance/doc/styles/components/_event';
-@import '../node_modules/substance/doc/styles/components/_signature';
-@import '../node_modules/substance/doc/styles/components/_params';
-@import '../node_modules/substance/doc/styles/components/_example';
-@import '../node_modules/substance/doc/styles/components/_cover';
-@import '../node_modules/substance/doc/styles/components/_member-index';
-
 // Code highlighting
 @import '../node_modules/highlight.js/styles/github';
+
+// DocumentationReader component styles
+@import './styles/_variables';
+@import './styles/_globals';
+@import './styles/components/_chapter';
+@import './styles/components/_file';
+@import './styles/components/_namespace';
+@import './styles/components/_class';
+@import './styles/components/_module';
+@import './styles/components/_function';
+@import './styles/components/_heading';
+@import './styles/components/_method';
+@import './styles/components/_property';
+@import './styles/components/_event';
+@import './styles/components/_signature';
+@import './styles/components/_params';
+@import './styles/components/_example';
+@import './styles/components/_cover';
+@import './styles/components/_member-index';
 
 pre {
   font-size: $font-size-codeblock;

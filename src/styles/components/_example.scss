@@ -1,0 +1,14 @@
+.sc-example {
+
+  & > .se-heading {
+    font-size: $font-size-normal;
+    font-weight: 600;
+    margin-bottom: $node-margin-bottom;
+  }
+
+  pre {
+    margin-bottom: $node-margin-bottom;
+  }
+
+  margin-top: $node-margin-bottom;
+}

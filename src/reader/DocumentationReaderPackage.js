@@ -1,0 +1,59 @@
+import { BasePackage } from 'substance'
+import DocumentationPackage from '../model/DocumentationPackage'
+import ChapterComponent from './ChapterComponent'
+import FileComponent from './FileComponent'
+import FunctionComponent from './FunctionComponent'
+import ClassComponent from './SubstanceClassComponent'
+import ConstructorComponent from './ConstructorComponent'
+import MethodComponent from './MethodComponent'
+import ModuleComponent from './ModuleComponent'
+import PropertyComponent from './PropertyComponent'
+import EventComponent from './EventComponent'
+
+export default {
+  name: 'documentation',
+  configure: function(config) {
+    config.import(BasePackage)
+    config.import(DocumentationPackage)
+
+    config.addComponent('chapter', ChapterComponent)
+    config.addComponent('file', FileComponent)
+    config.addComponent('function', FunctionComponent)
+    config.addComponent('class', ClassComponent)
+    config.addComponent('ctor', ConstructorComponent)
+    config.addComponent('method', MethodComponent)
+    config.addComponent('module', ModuleComponent)
+    config.addComponent('property', PropertyComponent)
+    config.addComponent('event', EventComponent)
+    config.addLabel('inherited-from', 'Inherited from')
+    config.addLabel('example', 'Example')
+    config.addLabel('parameters', 'Parameters')
+    config.addLabel('abstract-class', 'Abstract Class')
+    config.addLabel('component', 'Component')
+    config.addLabel('abstract-component', 'Abstract Component')
+    config.addLabel('ctor', 'Constructor')
+    config.addLabel('function', 'Function')
+    config.addLabel('functions', 'Functions')
+    config.addLabel('method', 'Method')
+    config.addLabel('module', 'Module')
+    config.addLabel('event', 'Event')
+    config.addLabel('defined-in', 'defined in')
+    config.addLabel('returns', 'Returns')
+    config.addLabel('extends', 'inherits from')
+    config.addLabel('inner-classes', 'Inner Classes')
+    config.addLabel('class-properties', 'Class properties')
+    config.addLabel('class-methods', 'Class methods')
+    config.addLabel('classes', 'Classes')
+    config.addLabel('methods', 'Methods')
+    config.addLabel('properties', 'Properties')
+    config.addLabel('instance-methods', 'Methods')
+    config.addLabel('instance-properties', 'Properties')
+    config.addLabel('instance-events', 'Events')
+    config.addLabel('inherited-instance-methods', 'Inherited Methods')
+    config.addLabel('inherited-instance-properties', 'Inherited Properties')
+    config.addLabel('inherited-class-properties', 'Inherited Class properties')
+    config.addLabel('inherited-class-methods', 'Inherited Class methods')
+    config.addLabel('props', 'Props')
+    config.addLabel('state', 'State')
+  }
+}

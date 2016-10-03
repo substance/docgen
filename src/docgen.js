@@ -1,5 +1,1 @@
-var generate = require('substance/doc/generator/generate')
-
-module.exports = {
-  generate: generate
-}
+export { default as generate } from './generator/generate'

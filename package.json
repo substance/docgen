@@ -1,6 +1,6 @@
 {
   "name": "substance-docgen",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Substance Documentation generator.",
   "main": "dist/docgen.js",
   "scripts": {
@@ -17,19 +17,24 @@
   "author": "Oliver Buchtala",
   "license": "MIT",
   "devDependencies": {
+    "acorn": "^4.0.3",
     "browserify": "^13.1.0",
     "commonmark": "0.22.1",
-    "dox": "substance/dox#b537b882ca0b2ffd512ae94f5d19909cce3ed911",
+    "dox": "substance/dox#859df8ac54ff32b3b6eac471af4e044eecb33f96",
     "font-awesome": "^4.6.3",
     "glob": "^7.1.0",
     "highlight.js": "9.4.0",
     "lodash": "^4.16.2",
+    "minimatch": "^3.0.3",
     "node-sass": "^3.10.0",
     "substance": "substance/substance#v1.0.0-beta.4",
-    "substance-bundler": "^0.4.20"
+    "substance-bundler": "^0.4.22"
   },
   "files": [
     "dist",
     "README.md"
-  ]
+  ],
+  "dependencies": {
+    "estree-walker": "^0.3.0"
+  }
 }
