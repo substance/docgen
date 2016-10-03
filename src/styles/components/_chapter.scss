@@ -1,7 +1,13 @@
-.sc-chapter .se-title.sm-level-1 {
+.sc-chapter {
+  padding-top: 20px;
+}
+
+.sc-chapter > .se-title.sm-level-1 {
+  border-bottom: solid 1px #ccc;
   font-size: 34px;
 }
 
-.sc-chapter .se-title.sm-level-2 {
+.sc-chapter > .se-title.sm-level-2 {
+  border-bottom: solid 1px #eee;
   font-size: 30px;
 }
