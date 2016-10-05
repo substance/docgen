@@ -6,15 +6,16 @@ import MemberIndexComponent from './MemberIndexComponent'
 class ClassComponent extends MemberContainerComponent {
 
   render($$) {
-    var node = this.props.node;
-    var el = $$('div')
+    const node = this.props.node;
+    const doc = node.getDocument()
+    const el = $$('div')
       .addClass('sc-class')
       .attr("data-id", this.props.node.id);
     // class header
     el.append($$(Heading, {node: node}));
     // the description
     el.append(
-      $$('div').addClass('se-description').html(node.description)
+      $$('div').addClass('se-description').html(doc.prepareHTML(node.description))
     );
     // useage block
     el.append(this.renderUsage($$));

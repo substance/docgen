@@ -67,6 +67,22 @@ class Documentation extends Document {
     })
     return items
   }
+
+  prepareHTML(html) {
+    const linkRe = /\{@link\s+([^}]+)\s*\}/g
+    let chunks = []
+    let match, lastIdx = 0
+    while ((match = linkRe.exec(html))) {
+      const start = match.index
+      const end = start + match[0].length
+      const id = match[1]
+      chunks.push(html.slice(lastIdx, start))
+      chunks = chunks.concat('<a href="#', id, '">', id, '</a>')
+      lastIdx = end
+    }
+    chunks.push(html.slice(lastIdx))
+    return chunks.join('')
+  }
 }
 
 Documentation.getNodeInfo = function(node) {

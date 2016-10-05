@@ -3,13 +3,14 @@ import { Component } from 'substance'
 class ContentComponent extends Component {
 
   render($$) {
-    var node = this.props.node
-    var el = $$('div')
+    const node = this.props.node
+    const doc = node.getDocument()
+    const el = $$('div')
       .addClass('sc-content')
       .attr("data-id", node.id)
     el.append(
       $$('div').addClass('se-title').append(node.title),
-      $$('div').addClass('se-description').html(node.description)
+      $$('div').addClass('se-description').html(doc.prepareHTML(node.description))
     )
     return el
   }
