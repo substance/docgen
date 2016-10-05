@@ -13,9 +13,9 @@ class SourceLinkComponent extends Component {
   }
 
   getGithubUrl() {
-    var node = this.props.node
-    var meta = node.getDocument().get('meta')
-    var githubUrl = meta.repository + "/blob/" + meta.sha + "/" + node.sourceFile + "#L" + node.sourceLine
+    const node = this.props.node
+    const doc = node.getDocument()
+    var githubUrl = doc.repository + "/blob/" + doc.sha + "/" + node.sourceFile + "#L" + node.sourceLine
     return githubUrl
   }
 }

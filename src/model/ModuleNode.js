@@ -8,12 +8,17 @@ var MEMBER_CATEGORIES = {
 }
 
 class ModuleNode extends APINode {
+  getName() {
+    return this.name
+  }
   getMemberCategories() {
     return MEMBER_CATEGORIES
   }
+  getMembers() {
+    const doc = this.getDocument()
+    return this.members.map(function(id) { return doc.get(id) })
+  }
 }
-
-Object.assign(ModuleNode.prototype, MemberContainerMixin)
 
 ModuleNode.type = 'module'
 

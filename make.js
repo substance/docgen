@@ -3,6 +3,11 @@ var bundleCSS = require('./.make/bundleCSS')
 var bundleJS = require('./.make/bundleJS')
 var fs = require('fs')
 var path = require('path')
+var glob = require('glob')
+
+b.task('substance', function() {
+  b.make('substance')
+})
 
 b.task('clean', function() {
   b.rm('dist')
@@ -41,22 +46,15 @@ b.task('api', function() {
   })
 })
 
-b.task('reader', function() {
-  b.copy('./src/index.html', './dist/reader/')
-  b.copy('node_modules/font-awesome', './dist/reader/font-awesome')
-  b.copy('node_modules/substance/dist', './dist/reader/substance')
-  b.custom('Bundling reader.css ...', {
-    src: './src/reader.scss',
-    dest: './dist/reader/reader.css',
-    execute: function() {
-      return bundleCSS({
-        src: './src/reader.scss',
-        dest: './dist/reader/reader.css'
-      })
-    }
-  })
+var READER = "./dist/reader/"
+b.task('reader', ['clean', 'vendor', 'api'], function() {
+  b.copy('./src/index.html', READER)
+  b.copy('./node_modules/substance/dist', READER+'substance')
+  b.copy('./node_modules/font-awesome', READER+'font-awesome')
+  b.copy('./node_modules/highlight.js/styles/github.css', READER+'github.css')
+  b.copy('./src/reader.css', READER)
+  b.copy('./dist/vendor.js', READER)
   b.js('./src/reader.js', {
-    ignore: [ 'substance-cheerio' ],
     external: ['substance', {
       global: 'vendor',
       path: path.resolve(__dirname, 'dist', 'vendor.js')
@@ -65,45 +63,11 @@ b.task('reader', function() {
       'node_modules/lodash/**'
     ]},
     targets: [{
-      dest: './dist/reader/reader.js',
+      dest: READER+'reader.js',
       format: 'umd', moduleName: 'reader'
     }]
   })
 })
 
-b.task('example', function() {
-  b.copy('./example/index.html', '.example/')
-  b.copy('./node_modules/substance/dist', '.example/substance')
-  b.copy('./node_modules/font-awesome', '.example/font-awesome')
-  b.copy('./dist/reader/reader.css', '.example/')
-  b.custom('Creating data file...', {
-    src: 'example/**/@(*.js|*.md)',
-    dest: '.example/data.js',
-    execute: function(files) {
-      var data = {}
-      files.forEach(function(file) {
-        var src = fs.readFileSync(file).toString()
-        var fileId = path.relative(__dirname, file)
-        fileId = fileId.replace(/\\/g, '/')
-        data[fileId] = src
-      })
-      fs.writeFileSync('.example/data.js', "window.SOURCES = " + JSON.stringify(data))
-    }
-  })
-  b.copy('./dist/vendor.js', '.example/')
-  b.js('./example/example.js', {
-    external: ['substance', {
-      global: 'vendor',
-      path: path.resolve(__dirname, 'dist', 'vendor.js')
-    }],
-    commonjs: { include: [
-      'node_modules/lodash/**'
-    ]},
-    targets: [{
-      dest: '.example/example.js',
-      format: 'umd', moduleName: 'generator'
-    }]
-  })
-})
 
-b.task('default', ['clean', 'vendor', 'api', 'reader', 'example'])
+b.task('default', ['substance', 'clean', 'vendor', 'api', 'reader', 'example'])

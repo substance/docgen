@@ -1,8 +1,8 @@
 import Documentation from './Documentation'
-import CoverNode from './CoverNode'
-import ChapterNode from './ChapterNode'
+import Page from './Page'
+import APIPage from './APIPage'
+import Section from './Section'
 import FileNode from './FileNode'
-import MetaNode from './MetaNode'
 import ModuleNode from './ModuleNode'
 import FunctionNode from './FunctionNode'
 import SubstanceClassNode from './SubstanceClassNode'
@@ -19,10 +19,10 @@ export default {
       ArticleClass: Documentation,
       defaultTextType: 'paragraph'
     })
-    config.addNode(CoverNode)
-    config.addNode(ChapterNode)
+    config.addNode(Page)
+    config.addNode(APIPage)
+    config.addNode(Section)
     config.addNode(FileNode)
-    config.addNode(MetaNode)
     config.addNode(ModuleNode)
     config.addNode(FunctionNode)
     config.addNode(SubstanceClassNode)

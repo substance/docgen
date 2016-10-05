@@ -1,9 +1,8 @@
-import MemberContainerComponent from './MemberContainerComponent'
+import { Component } from 'substance'
 import Heading from './HeadingComponent'
 import Example from './ExampleComponent'
-import MemberIndexComponent from './MemberIndexComponent'
 
-class ModuleComponent extends MemberContainerComponent {
+class ModuleComponent extends Component {
 
   render($$) {
 
@@ -24,8 +23,6 @@ class ModuleComponent extends MemberContainerComponent {
     }
     // members
     if (node.members && node.members.length > 0) {
-      // member index
-      el.append($$(MemberIndexComponent, {node: node}))
       // members
       el.append(this._renderMembers($$))
     }
@@ -33,6 +30,14 @@ class ModuleComponent extends MemberContainerComponent {
     return el
   }
 
+  _renderMembers($$) {
+    const node = this.props.node
+    const members = node.getMembers()
+    return members.map((node) => {
+      const ComponentClass = this.getComponent(node.type)
+      return $$(ComponentClass, { node:node })
+    })
+  }
 }
 
 export default ModuleComponent

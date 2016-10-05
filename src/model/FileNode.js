@@ -18,9 +18,12 @@ Object.assign(FileNode.prototype, MemberContainerMixin)
 FileNode.type = 'file';
 
 FileNode.define({
+  api: 'id',
   members: { type: ['array', 'id'], default: [] },
 });
 
 FileNode.isBlock = true
+
+FileNode.prototype.isAPINode = true
 
 export default FileNode

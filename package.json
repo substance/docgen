@@ -21,12 +21,13 @@
     "browserify": "^13.1.0",
     "commonmark": "0.22.1",
     "dox": "substance/dox#859df8ac54ff32b3b6eac471af4e044eecb33f96",
+    "estree-walker": "^0.3.0",
     "font-awesome": "^4.6.3",
     "highlight.js": "9.4.0",
     "lodash": "^4.16.2",
     "minimatch": "^3.0.3",
     "node-sass": "^3.10.0",
-    "substance": "substance/substance#v1.0.0-beta.4",
+    "substance": "substance/substance#3b51658af1c170c1b5bb366b23dac3eb05ac37c6",
     "substance-bundler": "^0.4.22"
   },
   "files": [

@@ -1,6 +1,10 @@
 import APINode from './APINode'
 
-class PropertyNode extends APINode {}
+class PropertyNode extends APINode {
+  getParent() {
+    return this.getDocument().get(this.parent)
+  }
+}
 
 PropertyNode.type = 'property'
 

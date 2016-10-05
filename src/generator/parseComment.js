@@ -4,6 +4,10 @@ import markdown from './markdownConverter'
 const _typeTagMatcher = /^\s*(\{[^@][^{]+\})\s+([\w\/]+)\s+(.+)/
 
 function parseComment(comment) {
+  const firstLineBreak = comment.indexOf("\n")
+  if (firstLineBreak >= 0) {
+    comment = comment.slice(firstLineBreak+1)
+  }
   let data = dox.parseComment(comment)
   const tags = data.tags
   const refinedTags = []
@@ -24,6 +28,9 @@ function parseComment(comment) {
         }
         refinedTags.push({ type: 'returns', value: returnVal })
         data.returns = returnVal
+        break
+      case 'module':
+        data.isModule = true
         break
       case 'event':
         data.isEvent = true
@@ -104,9 +111,9 @@ function _extractParam(tag) {
 }
 
 function _extractExample(str) {
-  var firstLineBreak = str.indexOf("\n")
+  const firstLineBreak = str.indexOf("\n")
   // var header
-  var body
+  let body
   if (firstLineBreak >= 0) {
     // header = str.slice(0, firstLineBreak).trim()
     body = str.slice(firstLineBreak)

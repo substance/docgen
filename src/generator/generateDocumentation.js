@@ -1,59 +1,83 @@
 import { minimatch } from '../vendor'
-import DocumentationGenerator from './DocumentationGenerator'
+import Documentation from '../model/Documentation'
+import APIGenerator from './APIGenerator'
 import markdownConverter from './markdownConverter'
 
 function generateDocumentation(config, sources) {
-  const generator = new DocumentationGenerator()
-  const doc = generator.doc
-  const fileList = Object.keys(sources)
-  doc.create({
-    type: 'meta',
-    id: 'meta',
-    repository: config.repository,
-    sha: config.sha || '0000'
-  })
+  const doc = new Documentation(config)
+  const pages = doc.get('pages')
+  let currentPage = null
   config.content.forEach(function(item) {
-    let src, html, files, chapter
-    const body = doc.get('body')
     switch (item.type) {
-      case 'cover':
-        src = sources[item.src]
-        html = ''
-        if (src) html = markdownConverter.toHtml(src)
-        doc.create({
-          type: 'cover',
-          id: 'cover',
-          title: item.title,
-          description: html
-        })
+      case 'page':
+        currentPage = _page(doc, sources, item)
+        pages.nodes.push(currentPage.id)
         break
-      case 'chapter':
-        src = sources[item.src]
-        html = ''
-        if (src) html = markdownConverter.toHtml(src)
-        chapter = doc.create({
-          type: 'chapter',
-          title: item.title,
-          level: item.level,
-          description: html
-        })
-        body.nodes.push(chapter.id)
+      case 'section':
+        if (!currentPage) throw new Error('Create a page first.')
+        _section(doc, sources, currentPage, item)
         break
       case 'api':
-        files = fileList.filter(minimatch.filter(item.pattern))
-        files.forEach(function(fileId) {
-          const src = sources[fileId]
-          if (src) {
-            // NOTE: this will create FileNodes and add them to the body
-            generator.addJS(fileId, src)
-          }
-        })
+        currentPage = _api(doc, sources, item)
+        pages.nodes.push(currentPage.id)
+        currentPage = null
         break
       default:
         console.error('Unsupported documentation type', item.type)
     }
   })
   return doc
+}
+
+function _page(doc, sources, item) {
+  const src = sources[item.src]
+  const html = src ? markdownConverter.toHtml(src) : ''
+  return doc.create({
+    type: 'page',
+    id: item.id,
+    title: item.title,
+    description: html
+  })
+}
+
+function _section(doc, sources, page, item) {
+  const src = sources[item.src]
+  const html = src ? markdownConverter.toHtml(src) : ''
+  const sec = doc.create({
+    type: 'section',
+    id: item.id,
+    page: page.id,
+    title: item.title,
+    level: item.level,
+    description: html
+  })
+  page.sections.push(sec.id)
+  return sec
+}
+
+function _api(doc, sources, item) {
+  const fileList = Object.keys(sources)
+  const apiPage = doc.create({
+    type: 'api-page',
+    id: item.id || 'api'
+  })
+  const generator = new APIGenerator(apiPage)
+  let files = item.files.map(function(file) {
+    if (file.indexOf('*')>-1) {
+      return fileList.filter(minimatch.filter(file))
+    } else {
+      return file
+    }
+  })
+  files = Array.prototype.concat.apply([], files)
+  files.sort()
+  files.forEach(function(fileId) {
+    const src = sources[fileId]
+    if (src) {
+      generator.addJS(fileId, src)
+    }
+  })
+  return apiPage
 }
 
 export default generateDocumentation

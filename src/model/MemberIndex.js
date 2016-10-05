@@ -12,8 +12,7 @@ class MemberIndex extends NodeIndex {
   /**
     Selects all nodes which have a parent.
 
-    @private
-    @param {model/data/Node}
+    @param {Node}
     @returns {Boolean} true if the given node should be added to the index.
    */
   select(node) {
@@ -45,7 +44,6 @@ class MemberIndex extends NodeIndex {
   /**
     Called when a node has been created.
 
-    @private
     @param {Node} node
    */
   create(node) {
@@ -55,7 +53,6 @@ class MemberIndex extends NodeIndex {
   /**
     Called when a node has been deleted.
 
-    @private
     @param {Node} node
    */
   delete(node) {
@@ -65,7 +62,6 @@ class MemberIndex extends NodeIndex {
   /**
     Called when a property has been updated.
 
-    @private
     @param {Node} node
    */
   update(node, path, newValue, oldValue) {

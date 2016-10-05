@@ -1,17 +1,27 @@
-import { Component, Configurator } from 'substance'
-import DocumentationReader from './reader/DocumentationReader'
-import DocumentationReaderPackage from './reader/DocumentationReaderPackage'
-import importDocumentation from './model/importDocumentation'
+import { Configurator, substanceGlobals } from 'substance'
+import DocumentationReader from '../src/reader/DocumentationReader'
+import DocumentationReaderPackage from '../src/reader/DocumentationReaderPackage'
+import generateDocumentation from '../src/generator/generateDocumentation'
 
-window.onload = function() {
-  if (!window.DOCGEN_DATA) {
-    throw new Error('DOCGEN_DATA must be provided first.')
-  }
+substanceGlobals.DEBUG_RENDERING = true
+
+function _generateDocumentation() {
+  const sources = window.SOURCES
+  const config = window.CONFIG
+  return generateDocumentation(config, sources)
+}
+
+function _openReader(doc) {
   var configurator = new Configurator().import(DocumentationReaderPackage)
-  var doc = importDocumentation(window.DOCGEN_DATA)
-  window.doc = doc
   DocumentationReader.mount({
     doc: doc,
     configurator: configurator
   }, window.document.body)
 }
+
+window.addEventListener('load', function() {
+  var doc = _generateDocumentation()
+  window.doc = doc
+  console.info(JSON.stringify(doc.toJSON(), null, 2))
+  _openReader(doc)
+})

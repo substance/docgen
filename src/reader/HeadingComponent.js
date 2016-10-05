@@ -12,8 +12,7 @@ class HeadingComponent extends Component {
     var type = node.type
     var specificType = node.getSpecificType()
     var el = $$('div').addClass('sc-doc-heading')
-    var headerEl = $$('a').attr({href: '#'}).addClass('se-header')
-        .on('click', this.onClick)
+    var headerEl = $$('div').addClass('se-header')
 
     // name
     headerEl.append(
@@ -43,12 +42,6 @@ class HeadingComponent extends Component {
     el.append(headerEl, details)
 
     return el
-  }
-
-  onClick(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    this.send('focusNode', this.props.node.id)
   }
 
 }

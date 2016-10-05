@@ -1,18 +1,71 @@
 import { Document, Configurator } from 'substance'
+import map from 'lodash/map'
 import MemberIndex from './MemberIndex'
 import DocumentationPackage from './DocumentationPackage'
 
 class Documentation extends Document {
-
-  constructor() {
+  constructor(data) {
     super(getSchema())
 
-    this.addIndex('members', new MemberIndex(this))
+    this.title = data.title || ''
+    this.repository = data.repository || ''
+    this.sha = data.sha || ''
+    this.defaultPage = data.defaultPage || 'about'
+
     this.create({
       type: 'container',
-      id: 'body',
-      nodes: []
+      id: 'pages'
     })
+
+    this.addIndex('members', new MemberIndex(this))
+  }
+  getPages() {
+    const _pages = this.get('pages')
+    if (!_pages) return []
+    return _pages.getNodes()
+  }
+  getDefaultPage() {
+    return this.get(this.defaultPage)
+  }
+  getClasses(config) {
+    return this._getByType('class', config)
+  }
+  getModules(config) {
+    return this._getByType('module', config)
+  }
+  getAPIGroups(config) {
+    const groups = {
+      "class": [],
+      "component": [],
+      "module": []
+    }
+    const classes = this.getClasses(config)
+    classes.forEach(function(clazz) {
+      if (clazz.hasTag('component')) {
+        groups['component'].push(clazz)
+      } else {
+        groups['class'].push(clazz)
+      }
+    })
+    groups['module'] = this.getModules(config)
+    return groups
+  }
+  _getByType(type, config) {
+    let items = map(this.getIndex('type').get(type))
+    if (config.skipPrivate || config.skipAbstract || config.skipInternal) {
+      items = items.filter(function(item) {
+        if (config.skipAbstract && item.isAbstract) return false
+        if (config.skipPrivate && item.hasTag('private')) return false
+        if (config.skipInternal && item.hasTag('internal')) return false
+        return true
+      })
+    }
+    items.sort(function(a, b) {
+      if (a.name<b.name) return -1
+      if (a.name>b.name) return 1
+      return 0
+    })
+    return items
   }
 }
 

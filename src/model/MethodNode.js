@@ -1,6 +1,10 @@
 import APINode from './APINode'
 
-class MethodNode extends APINode {}
+class MethodNode extends APINode {
+  getParent() {
+    return this.getDocument().get(this.parent)
+  }
+}
 
 MethodNode.type = 'method'
 

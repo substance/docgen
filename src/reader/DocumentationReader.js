@@ -1,14 +1,13 @@
-import { Component, TOC, SplitPane, ScrollPane } from 'substance'
-import Cover from './CoverComponent'
-import ContainerRenderer from './ContainerRenderer'
-import DocumentationTOCProvider from './DocumentationTOCProvider'
+import { Component, SplitPane, ScrollPane } from 'substance'
 import DocumentationRouter from './DocumentationRouter'
+import Navbar from './Navbar'
+import ApiTOC from './ApiTOC'
+import PageTOC from './PageTOC'
 
 class DocumentationReader extends Component {
 
   constructor(...args) {
     super(...args)
-
     this._initialize(this.props)
     this.handleActions({
       'switchState': this.switchState,
@@ -24,10 +23,20 @@ class DocumentationReader extends Component {
     this.config = DocumentationReader.config
     this.router = new DocumentationRouter(this)
     this.router.on('route:changed', this._onRouteChanged, this)
-    this.tocProvider = new DocumentationTOCProvider(this.props.doc, this.config)
     this.componentRegistry = configurator.getComponentRegistry()
     this.iconProvider = configurator.getIconProvider()
     this.labelProvider = configurator.getLabelProvider()
+
+    // const self = this
+    // TODO: we want to be able to use this with # controlling the reader
+    // dynamically, and maybe with static urls, used with a site-generator
+    this.linkProvider = {
+      getURL(id) {
+        // const doc = self.getDocument()
+        // const node = doc.get(id)
+        return '#'+id
+      }
+    }
   }
 
   getChildContext() {
@@ -37,50 +46,21 @@ class DocumentationReader extends Component {
       tocProvider: this.tocProvider,
       componentRegistry: this.componentRegistry,
       iconProvider: this.iconProvider,
-      labelProvider: this.labelProvider
+      labelProvider: this.labelProvider,
+      linkProvider: this.linkProvider
     }
-  }
-
-  getDocument() {
-    return this.props.doc
   }
 
   // this increases rerendering speed alot.
   // A deep rerender takes quite a time (about 400ms) because of the many components.
   // We can do this as long the content is not changed depending on the state
   // -- just updating scroll position ATM.
-  shouldRerender() {
-    return false
-  }
-
-  navigate(route, opts) {
-    this.extendState(route)
-    this.router.writeRoute(route, opts)
-  }
-
-  _onRouteChanged(route) {
-    this.navigate(route, {replace: true})
-  }
+  // shouldRerender() {
+  //   return false
+  // }
 
   dispose() {
     this.router.dispose()
-  }
-
-  // Action handlers
-  // ---------------
-
-  focusNode(nodeId) {
-    this.navigate({
-      nodeId: nodeId
-    })
-  }
-
-  switchState(newState) {
-    this.navigate(newState)
-  }
-
-  jumpToNode(nodeId) {
-    this.tocProvider.emit("entry:selected", nodeId)
   }
 
   didMount() {
@@ -96,55 +76,150 @@ class DocumentationReader extends Component {
   }
 
   render($$) {
-    return $$('div').addClass('sc-documentation-reader sc-controller').append(
-      $$(SplitPane, {splitType: 'vertical', sizeA: '270px'}).append(
-        this._renderContextSection($$),
-        this._renderMainSection($$)
-      ).ref('splitPane')
+    const el =$$('div').addClass('sc-documentation-reader sc-controller')
+    el.append(
+      $$(SplitPane, {splitType: 'horizontal'}).append(
+        this._renderNavBar($$),
+        $$(SplitPane, {splitType: 'vertical'}).append(
+          this._renderTOC($$),
+          this._renderMainSection($$)
+        )
+      )
     )
+    return el
   }
 
-  _renderContextSection($$) {
+  _renderNavBar($$) {
+    return $$(Navbar, { title: this._getTitle(), pages: this._getPages() })
+  }
+
+  _renderTOC($$) {
     const el = $$('div')
       .addClass('se-context-section')
       .ref('contextSection')
 
-    el.append($$(TOC))
-
+    const content = this._getContent()
+    let TOCComponent
+    let page
+    if (content) {
+      switch (content.type) {
+        case 'page':
+          TOCComponent = PageTOC
+          page = content
+          break
+        case 'section':
+          TOCComponent = PageTOC
+          page = content.getPage()
+          break
+        case 'api-page':
+          TOCComponent = ApiTOC
+          page = content
+          break
+        case 'module':
+        case 'class':
+        case 'method':
+        case 'property':
+        case 'function':
+          TOCComponent = ApiTOC
+          page = content.getAPIPage()
+          break
+        default:
+          //
+      }
+    }
+    if (TOCComponent) {
+      el.append($$(TOCComponent, { doc: this.props.doc, node: page }))
+    }
     return el
   }
 
   _renderMainSection($$) {
-    var config = this.config
-    const doc = this.props.doc
-    const cover = doc.get('cover')
-
     const main = $$('div').ref('main').addClass('se-main-section')
     const body = $$(ScrollPane, {
       tocProvider: this.tocProvider
     }).ref('contentPanel')
 
-    if (cover) body.append($$(Cover, {node: cover}).ref('cover'))
-    body.append(
-      $$(ContainerRenderer, { containerId: config.containerId }).ref('containerRenderer')
-    )
+    let ContentRenderer
+    let content = this._getContent()
+    if (content) {
+      switch (content.type) {
+        case 'method':
+        case 'property':
+        case 'function':
+          content = content.getParent()
+          break
+        default:
+          //
+      }
+      ContentRenderer = this.getComponent(content.type)
+      body.append(
+        $$(ContentRenderer, { node: content }).ref('content')
+      )
+    }
     main.append(body)
-
     return main
+  }
+
+  getComponentRegistry() {
+    return this.componentRegistry
+  }
+
+  getDocument() {
+    return this.props.doc
+  }
+
+  _getContent() {
+    const doc = this.getDocument()
+    if (this.state.nodeId) {
+      return doc.get(this.state.nodeId)
+    } else {
+      return doc.getDefaultPage()
+    }
+  }
+
+  _getPages() {
+    return this.getDocument().getPages()
+  }
+
+  _getTitle() {
+    return this.getDocument().title
+  }
+
+  navigate(route, opts) {
+    this.extendState(route)
+    this.router.writeRoute(route, opts)
+  }
+
+  _onRouteChanged(route) {
+    this.navigate(route, {replace: true})
+  }
+
+  focusNode(nodeId) {
+    this.navigate({
+      nodeId: nodeId
+    })
+  }
+
+  switchState(newState) {
+    this.navigate(newState)
+  }
+
+  jumpToNode(nodeId) {
+    this.tocProvider.emit("entry:selected", nodeId)
   }
 
   _updateScrollPosition() {
     if (this.refs.contentPanel && this.state.nodeId) {
-      this.refs.contentPanel.scrollTo(this.state.nodeId)
+      this.refs.contentPanel.scrollTo(this.state.nodeId, true)
     }
   }
 }
 
 // TODO: we should move this into a DocumentationConfigurator API
 DocumentationReader.config = {
-  containerId: 'body',
-  skipAbstractClasses: false,
-  skipPrivateMethods: true
+  skipAbstract: false,
+  skipPrivate: true,
+  skipInternal: true,
 }
 
 export default DocumentationReader

@@ -8,13 +8,16 @@ const MEMBER_CATEGORIES = {
   'instance-events': {name: 'instance-events', path: ['instance', 'event']},
   'class-methods': {name: 'class-methods', path: ['class', 'method']},
   'class-properties': {name: 'class-properties', path: ['class', 'property']},
-  'inner-classes': {name: 'inner-classes', path: ['class', 'class']}
 }
 
 // var INHERITED = ['instance-methods', 'instance-properties', 'class-methods', 'class-properties']
 const INHERITED = ['instance-methods', 'instance-properties']
 
 class ClassNode extends APINode {
+
+  getName() {
+    return this.name
+  }
 
   getSpecificType() {
     if (this.isAbstract) return 'abstract-class'
@@ -24,7 +27,6 @@ class ClassNode extends APINode {
   getMemberCategories() {
     return MEMBER_CATEGORIES
   }
-
 
   getInheritedMembers(config) {
     var inheritedMembers = {}
@@ -51,7 +53,7 @@ Object.assign(ClassNode.prototype, MemberContainerMixin)
 
 ClassNode.type = 'class'
 ClassNode.define({
-  parent: 'id',
+  parent: { type: 'id', optional: true },
   name: 'string',
   members: { type: ['array', 'id'], default: [] },
   isAbstract: { type: 'boolean', default: false },

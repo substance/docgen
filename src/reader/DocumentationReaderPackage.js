@@ -1,6 +1,7 @@
 import { BasePackage } from 'substance'
 import DocumentationPackage from '../model/DocumentationPackage'
-import ChapterComponent from './ChapterComponent'
+import ContentComponent from './ContentComponent'
+import APIPageComponent from './APIPageComponent'
 import FileComponent from './FileComponent'
 import FunctionComponent from './FunctionComponent'
 import ClassComponent from './SubstanceClassComponent'
@@ -16,7 +17,9 @@ export default {
     config.import(BasePackage)
     config.import(DocumentationPackage)
 
-    config.addComponent('chapter', ChapterComponent)
+    config.addComponent('page', ContentComponent)
+    config.addComponent('api-page', APIPageComponent)
+    config.addComponent('section', ContentComponent)
     config.addComponent('file', FileComponent)
     config.addComponent('function', FunctionComponent)
     config.addComponent('class', ClassComponent)
@@ -30,6 +33,7 @@ export default {
     config.addLabel('parameters', 'Parameters')
     config.addLabel('abstract-class', 'Abstract Class')
     config.addLabel('component', 'Component')
+    config.addLabel('components', 'Components')
     config.addLabel('abstract-component', 'Abstract Component')
     config.addLabel('ctor', 'Constructor')
     config.addLabel('function', 'Function')
@@ -43,8 +47,13 @@ export default {
     config.addLabel('inner-classes', 'Inner Classes')
     config.addLabel('class-properties', 'Class properties')
     config.addLabel('class-methods', 'Class methods')
+    config.addLabel('class', 'Class')
     config.addLabel('classes', 'Classes')
+    config.addLabel('method', 'Method')
     config.addLabel('methods', 'Methods')
+    config.addLabel('module', 'Module')
+    config.addLabel('modules', 'Modules')
+    config.addLabel('property', 'Property')
     config.addLabel('properties', 'Properties')
     config.addLabel('instance-methods', 'Methods')
     config.addLabel('instance-properties', 'Properties')
