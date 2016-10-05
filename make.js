@@ -50,7 +50,6 @@ var READER = "./dist/reader/"
 b.task('reader', ['clean', 'vendor', 'api'], function() {
   b.copy('./src/index.html', READER)
   b.copy('./node_modules/substance/dist', READER+'substance')
-  b.copy('./node_modules/font-awesome', READER+'font-awesome')
   b.copy('./node_modules/highlight.js/styles/github.css', READER+'github.css')
   b.copy('./src/reader.css', READER)
   b.copy('./dist/vendor.js', READER)
@@ -68,6 +67,5 @@ b.task('reader', ['clean', 'vendor', 'api'], function() {
     }]
   })
 })
-
 
 b.task('default', ['substance', 'clean', 'vendor', 'api', 'reader'])
