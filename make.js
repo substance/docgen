@@ -70,4 +70,4 @@ b.task('reader', ['clean', 'vendor', 'api'], function() {
 })
 
 
-b.task('default', ['substance', 'clean', 'vendor', 'api', 'reader', 'example'])
+b.task('default', ['substance', 'clean', 'vendor', 'api', 'reader'])
