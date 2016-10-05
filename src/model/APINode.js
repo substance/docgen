@@ -28,6 +28,7 @@ APINode.define({
   sourceFile: 'string', // ui/Component.js
   sourceLine: 'number',
   tags: { type: ['array', 'object'], default: [] }, // [ { name: 'type', string: '...', html: '...'}]
+  isUndocumented: { type: 'boolean', default: false },
 })
 
 APINode.isBlock = true

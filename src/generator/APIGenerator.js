@@ -44,6 +44,7 @@ class APIGenerator {
     }
   }
 
+  // called to actually create a class or module node
   _create(fileId, item) {
     // use the fileId
     const doc = this.doc
@@ -248,8 +249,6 @@ class Walker {
   }
 
   _class(node, comment) {
-    // skip undocumented classes
-    if (!comment) return false
     const name = node.id.name
     const superClass = node.superClass ? node.superClass.name : null
     const clazz = {
@@ -259,10 +258,16 @@ class Walker {
       sourceFile: this.fileId,
       sourceLine: node.loc.start.line,
       superClass: superClass,
-      description: comment.description.full,
-      isAbstract: comment.isAbstract,
-      example: comment.example,
-      tags: comment.tags,
+    }
+    if (comment) {
+      Object.assign(clazz, {
+        description: comment.description.full,
+        isAbstract: comment.isAbstract,
+        example: comment.example,
+        tags: comment.tags,
+      })
+    } else {
+      clazz.isUndocumented = true
     }
     this._clazz = clazz
     this._items[name] = clazz

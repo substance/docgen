@@ -26,17 +26,6 @@ class DocumentationReader extends Component {
     this.componentRegistry = configurator.getComponentRegistry()
     this.iconProvider = configurator.getIconProvider()
     this.labelProvider = configurator.getLabelProvider()
-
-    // const self = this
-    // TODO: we want to be able to use this with # controlling the reader
-    // dynamically, and maybe with static urls, used with a site-generator
-    this.linkProvider = {
-      getURL(id) {
-        // const doc = self.getDocument()
-        // const node = doc.get(id)
-        return '#'+id
-      }
-    }
   }
 
   getChildContext() {
@@ -47,7 +36,7 @@ class DocumentationReader extends Component {
       componentRegistry: this.componentRegistry,
       iconProvider: this.iconProvider,
       labelProvider: this.labelProvider,
-      linkProvider: this.linkProvider
+      linkProvider: this.getDocument().linkProvider
     }
   }
 

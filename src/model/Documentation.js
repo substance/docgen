@@ -1,7 +1,9 @@
 import { Document, Configurator } from 'substance'
 import map from 'lodash/map'
 import MemberIndex from './MemberIndex'
+import LookupTable from './LookupTable'
 import DocumentationPackage from './DocumentationPackage'
+import LinkProvider from './LinkProvider'
 
 class Documentation extends Document {
   constructor(data) {
@@ -17,7 +19,10 @@ class Documentation extends Document {
       id: 'pages'
     })
 
+    this.addIndex('id-lookup', new LookupTable(this))
     this.addIndex('members', new MemberIndex(this))
+
+    this.linkProvider = new LinkProvider(this)
   }
   getPages() {
     const _pages = this.get('pages')
@@ -57,6 +62,7 @@ class Documentation extends Document {
         if (config.skipAbstract && item.isAbstract) return false
         if (config.skipPrivate && item.hasTag('private')) return false
         if (config.skipInternal && item.hasTag('internal')) return false
+        if (item.isUndocumented) return false
         return true
       })
     }
@@ -69,6 +75,7 @@ class Documentation extends Document {
   }
 
   prepareHTML(html) {
+    html = html || ''
     const linkRe = /\{@link\s+([^}]+)\s*\}/g
     let chunks = []
     let match, lastIdx = 0
@@ -76,8 +83,9 @@ class Documentation extends Document {
       const start = match.index
       const end = start + match[0].length
       const id = match[1]
+      const url = this.linkProvider.getURL(id)
       chunks.push(html.slice(lastIdx, start))
-      chunks = chunks.concat('<a href="#', id, '">', id, '</a>')
+      chunks = chunks.concat('<a href="', url, '">', id, '</a>')
       lastIdx = end
     }
     chunks.push(html.slice(lastIdx))
