@@ -1,6 +1,6 @@
 {
   "name": "substance-docgen",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "Substance Documentation generator.",
   "main": "dist/docgen.js",
   "scripts": {
@@ -32,6 +32,7 @@
   },
   "files": [
     "dist",
+    "bundleSources.js",
     "README.md"
   ],
   "dependencies": {
