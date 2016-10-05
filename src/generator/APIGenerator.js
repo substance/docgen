@@ -23,7 +23,7 @@ class APIGenerator {
       onComment: function(block, text, start, end) {
         // only record block comments starting with /**
         if (block && text.charCodeAt(0) === STAR) {
-          text = text.slice(1).trim()
+          text = text.slice(1)
           comments.push({ start: start, end: end, text: text })
         }
       }
