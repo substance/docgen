@@ -8,9 +8,11 @@ class PropertyComponent extends Component {
   render($$) {
     const node = this.props.node
     const doc = node.getDocument()
+    const idProvider = this.context.idProvider
     const el = $$('div')
       .addClass('sc-property')
       .attr("data-id", node.id)
+    if (idProvider) el.attr('id', idProvider.getId(node))
     const info = Documentation.getNodeInfo(node)
     const visibility = node.isPrivate ? "private " : ""
 
