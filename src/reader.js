@@ -41,6 +41,5 @@ window.addEventListener('load', function() {
     doc = _importDocumentation()
   }
   window.doc = doc
-  console.info(JSON.stringify(doc.toJSON(), null, 2))
   _openReader(doc)
 })

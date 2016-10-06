@@ -1,4 +1,4 @@
-import { Component, SplitPane, ScrollPane } from 'substance'
+import { Component, SplitPane, ScrollPane, inBrowser } from 'substance'
 import DocumentationRouter from './DocumentationRouter'
 import Navbar from './Navbar'
 import ApiTOC from './ApiTOC'
@@ -193,12 +193,8 @@ class DocumentationReader extends Component {
     this.navigate(newState)
   }
 
-  jumpToNode(nodeId) {
-    this.tocProvider.emit("entry:selected", nodeId)
-  }
-
   _updateScrollPosition() {
-    if (this.refs.contentPanel && this.state.nodeId) {
+    if (inBrowser && this.refs.contentPanel && this.state.nodeId) {
       this.refs.contentPanel.scrollTo(this.state.nodeId, true)
     }
   }

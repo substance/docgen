@@ -1,1 +1,1 @@
-export { default as bundleDocumentation } from './generator/bundleDocumentation'
+export { default as bundle } from './generator/bundle'

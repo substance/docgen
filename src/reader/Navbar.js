@@ -10,7 +10,7 @@ class Navbar extends Component {
     el.append(title)
 
     const pagesEl = $$('div').addClass('se-pages')
-    pages.forEach(function(page) {
+    pages.forEach((page) => {
       const pageEl = $$('a')
         .attr('href', linkProvider.getURL(page.id))
         .addClass('se-page')
