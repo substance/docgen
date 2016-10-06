@@ -6,7 +6,9 @@ class Navbar extends Component {
     const linkProvider = this.context.linkProvider
     const el = $$('div').addClass('sc-navbar')
 
-    const title = $$('div').addClass('se-title').text(this.props.title)
+    const title = $$('div').addClass('se-title').append(
+      $$('a').attr('href', './').append(this.props.title)
+    )
     el.append(title)
 
     const pagesEl = $$('div').addClass('se-pages')

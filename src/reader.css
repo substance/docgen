@@ -1,4 +1,7 @@
-@import url('./font-awesome/css/font-awesome.min.css')
+@import './substance/substance.css';
+@import './substance/substance-reset.css';
+@import './substance/substance-pagestyle.css';
+@import './github.css';
 
 pre {
   font-size: 12px;
@@ -7,8 +10,7 @@ pre {
 }
 
 body {
-  font-size: 14px;
-  overflow: hidden;
+  /*font-size: 14px;*/
 }
 
 p {
@@ -28,98 +30,118 @@ blockquote {
 }
 
 .sc-documentation-reader {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  max-width: 1200px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.sc-documentation-reader .se-page-content {
+  overflow: hidden;
+  padding-top: 40px;
 }
 
 .sc-navbar {
-  padding: 20px;
-  color: #fff;
-  background: #3B4749;
-  font-family: Josefin Sans, Sans-Serif;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 16px;
+  overflow: hidden;
 }
 
 .sc-navbar > * {
-  display: inline-block;
+  /*display: inline-block;*/
 }
 
 .sc-navbar .se-title {
-  font-size: 40px;
+  float: left;
+  width: 300px;
+  font-size: 30px;
   font-weight: 600;
 }
 
+.sc-navbar .se-title a {
+  color: #444;
+}
+
 .sc-navbar .se-pages {
-  margin-left: 50px;
+  margin-left: 300px;
 }
 
 .sc-navbar .se-page {
-  margin-left: 20px;
-  font-size: 30px;
-  color: #fff;
+  margin-right: 20px;
+  font-size: 18px;
+  padding-top: 10px;
+  color: #444;
+  font-weight: 600;
   display: inline-block;
   text-decoration: none;
 }
 
-
 .sc-documentation-reader .se-context-section {
   width: 300px;
-  padding: 40px 20px;
-  border-right: 1px solid #ddd;
-  background-color: #fafafa;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-  font-family: "Lato";
-  overflow-y: auto;
+  float: left;
+}
+
+.sc-documentation-reader .se-main-section {
+  margin-left: 300px;
 }
 
 .sc-documentation-reader .se-main-section .se-content {
-  font-family: "Lato";
   padding: 40px;
 }
 
+.sc-page-toc {
+
+}
+
 .sc-page-toc > .se-title {
-  font-size: 25px;
+  font-size: 18px;
+  display: none;
+  font-weight: 600;
+  color: #444;
   text-decoration: none;
 }
 
 .sc-page-toc > .se-sections {
-  padding: 17px;
+  /*padding: 17px;*/
+  padding-top: 10px;
 }
 
 .sc-page-toc > .se-sections > .se-section {
   display: block;
-  font-size: 17px;
+  font-size: 14px;
   text-decoration: none;
+  font-weight: 600;
+  padding-bottom: 5px;
+  color: #444;
 }
 
 .sc-api-toc .se-category .se-label {
-  font-size: 25px;
+  font-size: 14px;
+  color: #777;
 }
 
 .sc-api-toc .se-category .se-items {
-  padding: 20px;
+
+  padding: 20px 0;
 }
 
 .sc-api-toc .se-category .se-item {
   display: block;
-  font-size: 17px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
   text-decoration: none;
 }
 
-.sc-content {
-  padding: 40px;
-}
-
 .sc-content > .se-title {
-  border-bottom: solid 1px #ccc;
-  font-size: 34px;
+  /*border-bottom: solid 1px #ddd;*/
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 30px;
 }
 
 .sc-file {
   padding-top: 20px;
-  border-top: solid 1px #ccc;
+  border-top: solid 1px #ddd;
 }
 
 .sc-class {
@@ -159,7 +181,7 @@ blockquote {
   font-size: 25px;
   position: relative;
   padding-bottom: 10px;
-  padding-top: 10px;
+  /*padding-top: 10px;*/
 }
 .sc-doc-heading .se-header {
   color: inherit;
@@ -284,16 +306,6 @@ blockquote {
 
 .sc-example pre {
   margin-bottom: 20px;
-}
-
-.sc-cover .se-title {
-  font-size: 40px;
-  font-weight: bold;
-  margin-bottom: 30px;
-}
-
-.sc-cover .se-description {
-  margin-bottom: 30px;
 }
 
 .sc-member-index {

@@ -67,12 +67,10 @@ class DocumentationReader extends Component {
   render($$) {
     const el =$$('div').addClass('sc-documentation-reader sc-controller')
     el.append(
-      $$(SplitPane, {splitType: 'horizontal'}).append(
-        this._renderNavBar($$),
-        $$(SplitPane, {splitType: 'vertical'}).append(
-          this._renderTOC($$),
-          this._renderMainSection($$)
-        )
+      this._renderNavBar($$),
+      $$('div').addClass('se-page-content').append(
+        this._renderTOC($$),
+        this._renderMainSection($$)
       )
     )
     return el
@@ -124,9 +122,6 @@ class DocumentationReader extends Component {
 
   _renderMainSection($$) {
     const main = $$('div').ref('main').addClass('se-main-section')
-    const body = $$(ScrollPane, {
-      tocProvider: this.tocProvider
-    }).ref('contentPanel')
 
     let ContentRenderer
     let content = this._getContent()
@@ -141,11 +136,11 @@ class DocumentationReader extends Component {
           //
       }
       ContentRenderer = this.getComponent(content.type)
-      body.append(
+      main.append(
         $$(ContentRenderer, { node: content }).ref('content')
       )
     }
-    main.append(body)
+
     return main
   }
 
