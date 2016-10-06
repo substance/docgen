@@ -9,8 +9,9 @@ const order = [
 class ApiTOC extends Component {
 
   render($$) {
-    const el = $$('div').addClass('sc-api-toc')
-    const doc = this.props.doc
+    const el = $$('div').addClass(this._getClasses())
+    const node = this.props.node
+    const doc = node.getDocument()
     const groups = doc.getAPIGroups(this.context.config)
     order.forEach((cat) => {
       el.append(
@@ -20,8 +21,11 @@ class ApiTOC extends Component {
     return el
   }
 
+  _getClasses() {
+    return 'sc-api-toc'
+  }
+
   _renderCategory($$, category, items) {
-    const linkProvider = this.context.linkProvider
     const catEl = $$('div').addClass('se-category')
     // label
     const label = $$('div').addClass('se-label').text(this.getLabel(category.label))
@@ -29,19 +33,19 @@ class ApiTOC extends Component {
     if (items.length === 0) return null
     const itemsContainer = $$('div').addClass('se-items')
     items.forEach((item) => {
-      const itemEl = $$('a').attr('href', linkProvider.getURL(item.id)).addClass('se-item').text(item.name)
-        .on('click', this._onClickItem.bind(this, item))
-      itemsContainer.append(itemEl)
+      itemsContainer.append(this._renderItem($$, item))
     })
     catEl.append(itemsContainer)
 
     return catEl
   }
 
-  _onClickItem(node, evt) {
-    // evt.preventDefault()
-    evt.stopPropagation()
-    // console.log('Open page', node.id)
+  _renderItem($$, item) {
+    const linkProvider = this.context.linkProvider
+    return $$('a')
+      .attr('href', linkProvider.getURL(item.id))
+      .addClass('se-item')
+      .text(item.name)
   }
 
 }

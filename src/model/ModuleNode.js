@@ -20,6 +20,9 @@ class ModuleNode extends APINode {
   }
 }
 
+Object.assign(ModuleNode.prototype, MemberContainerMixin)
+
+
 ModuleNode.type = 'module'
 
 ModuleNode.define({

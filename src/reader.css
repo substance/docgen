@@ -117,10 +117,28 @@ blockquote {
   font-size: 34px;
 }
 
-.sc-file {
-  padding-top: 20px;
-  border-top: solid 1px #ccc;
+.sc-api-page .se-category > .se-label {
+  font-size: 25px;
 }
+
+.sc-api-page .se-items {
+  padding: 20px 40px;
+  display: block;
+}
+
+.sc-api-page .se-item {
+  display: block;
+}
+
+.sc-api-page .sc-signature {
+  border: none;
+}
+
+.sc-api-page .sc-signature > .se-declaration {
+  font-weight: initial;
+  font-size: initial;
+}
+
 
 .sc-class {
   margin-bottom: 30px;
