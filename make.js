@@ -29,12 +29,13 @@ b.task('vendor', function() {
 
 b.task('api', function() {
   b.js('./src/docgen.js', {
-    external: ['glob', 'fs', 'path', 'substance', {
+    resolve: { jsnext: ['substance'] },
+    external: ['glob', 'fs', 'path', 'substance-cheerio', {
       global: 'vendor',
       path: path.resolve(__dirname, 'dist', 'vendor.js')
     }],
     commonjs: { include: [
-      'node_modules/lodash/**'
+      '/**/node_modules/lodash/**'
     ]},
     targets: [{
       dest: './dist/docgen.js',
