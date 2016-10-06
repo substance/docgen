@@ -6,8 +6,9 @@ class ModuleComponent extends Component {
 
   render($$) {
 
-    var node = this.props.node
-    var el = $$('div')
+    const node = this.props.node
+    const doc = node.getDocument()
+    const el = $$('div')
       .addClass('sc-module')
       .attr("data-id", node.id)
 
@@ -15,7 +16,7 @@ class ModuleComponent extends Component {
     el.append($$(Heading, {node: node}))
     // description
     el.append(
-      $$('div').addClass('se-description').html(node.description)
+      $$('div').addClass('se-description').html(doc.prepareHTML(node.description))
     )
     // example
     if (node.example) {

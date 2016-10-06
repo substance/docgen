@@ -7,6 +7,7 @@ class MethodComponent extends Component {
 
   render($$) {
     const node = this.props.node
+    const doc = node.getDocument()
     const parent = node.getParent()
     const el = $$('div')
       .addClass('sc-method')
@@ -17,7 +18,7 @@ class MethodComponent extends Component {
 
     // the description
     el.append(
-      $$('div').addClass('se-description').html(node.description)
+      $$('div').addClass('se-description').html(doc.prepareHTML(node.description))
     )
 
     // param description

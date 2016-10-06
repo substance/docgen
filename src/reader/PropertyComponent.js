@@ -6,12 +6,13 @@ import Documentation from '../model/Documentation'
 class PropertyComponent extends Component {
 
   render($$) {
-    var node = this.props.node
-    var el = $$('div')
+    const node = this.props.node
+    const doc = node.getDocument()
+    const el = $$('div')
       .addClass('sc-property')
       .attr("data-id", node.id)
-    var info = Documentation.getNodeInfo(node)
-    var visibility = node.isPrivate ? "private " : ""
+    const info = Documentation.getNodeInfo(node)
+    const visibility = node.isPrivate ? "private " : ""
 
     // declaration
     el.append(
@@ -29,7 +30,7 @@ class PropertyComponent extends Component {
     )
 
     // description
-    el.append($$('div').addClass('se-description').html(node.description))
+    el.append($$('div').addClass('se-description').html(doc.prepareHTML(node.description)))
     // example
     if (node.example) {
       el.append($$(Example, {node: node}))

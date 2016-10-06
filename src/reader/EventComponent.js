@@ -6,8 +6,9 @@ import SourceLink from './SourceLinkComponent'
 class EventComponent extends Component {
 
   render($$) {
-    var node = this.props.node
-    var el = $$('div')
+    const node = this.props.node
+    const doc = node.getDocument()
+    const el = $$('div')
       .addClass('sc-method')
       .attr("data-id", node.id)
 
@@ -26,7 +27,7 @@ class EventComponent extends Component {
 
     // the description
     el.append(
-      $$('div').addClass('se-description').html(node.description)
+      $$('div').addClass('se-description').html(doc.prepareHTML(node.description))
     )
     // param description
     if (node.params.length > 0 || node.returns) {

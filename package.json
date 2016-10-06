@@ -27,7 +27,7 @@
     "lodash": "^4.16.2",
     "minimatch": "^3.0.3",
     "node-sass": "^3.10.0",
-    "substance": "substance/substance#3b51658af1c170c1b5bb366b23dac3eb05ac37c6",
+    "substance": "substance/substance#30fd72350b52a5d4201bd5e024fdabaa58f3f4f5",
     "substance-bundler": "^0.4.22"
   },
   "files": [

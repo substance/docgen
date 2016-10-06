@@ -8,6 +8,7 @@ class FunctionComponent extends Component {
 
   render($$) {
     const node = this.props.node
+    const doc = node.getDocument()
     const el = $$('div')
       .addClass('sc-function')
       .attr("data-id", node.id)
@@ -18,7 +19,7 @@ class FunctionComponent extends Component {
     el.append($$(Heading, {node: node, name: headingName}))
 
     // description
-    el.append($$('div').addClass('se-description').html(node.description))
+    el.append($$('div').addClass('se-description').html(doc.prepareHTML(node.description)))
 
     // params
     if (node.params.length > 0 || node.returns) {
