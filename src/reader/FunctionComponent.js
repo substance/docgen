@@ -9,9 +9,11 @@ class FunctionComponent extends Component {
   render($$) {
     const node = this.props.node
     const doc = node.getDocument()
+    const idProvider = this.context.idProvider
     const el = $$('div')
       .addClass('sc-function')
       .attr("data-id", node.id)
+    if (idProvider) el.attr('id', idProvider.getId(node))
 
     // heading
     const args = map(node.params, 'name').join(', ')

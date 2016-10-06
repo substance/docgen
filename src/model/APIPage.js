@@ -9,7 +9,8 @@ class APIPage extends DocumentNode {
 APIPage.type = 'api-page'
 
 APIPage.define({
-  nodes: {type: ['array', 'id'], default: [] }
+  nodes: {type: ['array', 'id'], default: [] },
+  description: {type: 'string', default: ''}
 })
 
 export default APIPage

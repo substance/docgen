@@ -14,7 +14,8 @@ function buildSite(doc) {
   linkProvider.setLocation(dest)
   const reader = DocumentationReader.mount({
     doc: doc,
-    configurator: configurator
+    configurator: configurator,
+    idProvider: new StaticIdProvider()
   }, root)
   output[dest] = _createHTML(root.innerHTML, dest)
   const nodes = doc.getNodes()
@@ -66,6 +67,23 @@ function _getPathToRoot(dest) {
 }
 
 const NOWHERE = 'javascript:void(0)' // eslint-disable-line
+
+class StaticIdProvider {
+  getId(node) {
+    let id = node.id
+    switch(node.type) {
+      case 'method':
+      case 'property':
+      case 'function':
+      case 'ctor':
+        id = [node.isStatic?'static_':'', node.name].join('')
+        break
+      default:
+        id = id.replace('/', '_')
+    }
+    return id
+  }
+}
 
 class StaticLinkProvider {
   constructor(doc) {

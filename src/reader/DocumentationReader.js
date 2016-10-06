@@ -26,6 +26,7 @@ class DocumentationReader extends Component {
     this.componentRegistry = configurator.getComponentRegistry()
     this.iconProvider = configurator.getIconProvider()
     this.labelProvider = configurator.getLabelProvider()
+    this.idProvider = this.props.idProvider
   }
 
   getChildContext() {
@@ -36,7 +37,8 @@ class DocumentationReader extends Component {
       componentRegistry: this.componentRegistry,
       iconProvider: this.iconProvider,
       labelProvider: this.labelProvider,
-      linkProvider: this.getDocument().linkProvider
+      linkProvider: this.getDocument().linkProvider,
+      idProvider: this.idProvider
     }
   }
 
@@ -107,6 +109,7 @@ class DocumentationReader extends Component {
         case 'method':
         case 'property':
         case 'function':
+        case 'ctor':
           TOCComponent = ApiTOC
           page = content.getAPIPage()
           break
@@ -130,6 +133,7 @@ class DocumentationReader extends Component {
         case 'method':
         case 'property':
         case 'function':
+        case 'ctor':
           content = content.getParent()
           break
         default:

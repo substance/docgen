@@ -1,22 +1,32 @@
 import { Component } from 'substance'
-import map from 'lodash/map'
 import Documentation from '../model/Documentation'
 import SourceLink from './SourceLinkComponent'
+
+const LBRACKET = '['.charCodeAt(0)
 
 class SignatureComponent extends Component {
 
   render($$) {
-    var el = $$('div').addClass('sc-signature')
-    var node = this.props.node
-    var params = node.params
+    const node = this.props.node
+    const linkProvider = this.context.linkProvider
+    const el = $$('div').addClass('sc-signature')
 
+    var params = node.params
     var info = Documentation.getNodeInfo(node)
     var visibility = node.isPrivate ? 'private ' : ''
-    var args = map(params, 'name').join(', ')
+    var args = params.map(function(param) {
+      let name = param.name
+      // HACK: skip options parameters here
+      if (name.indexOf('.')>0) return null
+      // HACK: removing brackets
+      if (name.charCodeAt(0) === LBRACKET) {
+        name = name.slice(1, name.length-1)
+      }
+      return name
+    }).filter(Boolean).join(', ')
 
     const decl = $$('a').addClass('se-declaration')
-      .attr({href: '#'})
-      .on('click', this.onClick)
+      .attr('href', linkProvider.getURL(node.id))
 
     if (node.isPrivate) {
       decl.append($$('span').addClass('se-visibility').append(visibility))
@@ -34,39 +44,19 @@ class SignatureComponent extends Component {
       .append($$('span').addClass('se-arguments').append(args))
       .append(')')
 
-    el.append(
-      decl,
-      $$('div').addClass('se-source').append(
-        $$('strong').append(info.typeDescr),
-        $$('span').append(' defined in '),
-        $$(SourceLink, {node: node})
+    el.append(decl)
+
+    if (!this.props.short) {
+      el.append(
+        $$('div').addClass('se-source').append(
+          $$('strong').append(info.typeDescr),
+          $$('span').append(' defined in '),
+          $$(SourceLink, {node: node})
+        )
       )
-    )
+    }
 
-    // param description
-    // if (node.params.length > 0 || node.returns) {
-    //   el.append($$(Params, {params: node.params, returns: node.returns}))
-    // }
-
-    // // if given a message indicating that this method has been inherited
-    // if (this.props.inheritedFrom) {
-    //   el.append(
-    //     $$('div').addClass('se-inherited-from')
-    //     .append(
-    //       $$('span').addClass('se-label').append(this.i18n.t('inherited-from')),
-    //       $$('a').addClass('se-parent-class')
-    //         .attr('href','#'+this.props.inheritedFrom)
-    //         .append(this.props.inheritedFrom)
-    //     )
-    //   )
-    // }
     return el
-  }
-
-  onClick(e) {
-    e.preventDefault()
-    e.stopPropagation()
-    this.send('focusNode', this.props.node.id)
   }
 
 }

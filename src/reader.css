@@ -139,10 +139,47 @@ blockquote {
   font-size: 30px;
 }
 
-.sc-file {
+.sc-api-page .se-category {
   padding-top: 20px;
-  border-top: solid 1px #ddd;
 }
+
+.sc-api-page .se-category > .se-label {
+  font-size: 25px;
+  font-weight: 600;
+
+}
+
+.sc-api-page .se-category > .se-items > .se-item > a {
+  display: block;
+  font-weight: 600;
+  color: #444;
+  font-size: 18px;
+}
+
+.sc-api-page .se-items {
+  /*padding: 20px 0;*/
+  display: block;
+}
+
+.sc-api-page .se-item {
+  display: block;
+  padding-top: 30px;
+}
+
+.sc-api-page .sc-signature {
+  border: none;
+}
+
+.sc-api-page .sc-signature > .se-declaration {
+  display: block;
+  font-size: 14px;
+  font-weight: initial;
+}
+
+.sc-api-page .se-member {
+  padding: 5px 30px;
+}
+
 
 .sc-class {
   margin-bottom: 30px;
@@ -328,3 +365,4 @@ blockquote {
 .sc-documentation-toc-panel {
   top: 0px;
 }
+

@@ -9,9 +9,11 @@ class MethodComponent extends Component {
     const node = this.props.node
     const doc = node.getDocument()
     const parent = node.getParent()
+    const idProvider = this.context.idProvider
     const el = $$('div')
       .addClass('sc-method')
       .attr("data-id", node.id)
+    if (idProvider) el.attr('id', idProvider.getId(node))
 
     // signature
     el.append($$(Signature, {node: node}))

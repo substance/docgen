@@ -56,10 +56,13 @@ function _section(doc, sources, page, item) {
 }
 
 function _api(doc, sources, item) {
+  const src = sources[item.src]
   const fileList = Object.keys(sources)
+  const html = src ? markdownConverter.toHtml(src) : ''
   const apiPage = doc.create({
     type: 'api-page',
-    id: item.id || 'api'
+    id: item.id || 'api',
+    description: html
   })
   const generator = new APIGenerator(apiPage)
   let files = item.files.map(function(file) {
