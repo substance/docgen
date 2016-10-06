@@ -74,7 +74,7 @@ class Documentation extends Document {
     return items
   }
 
-  prepareHTML(html) {
+  prepareHTML(html, hints) {
     html = html || ''
     const linkRe = /\{@link\s+([^}]+)\s*\}/g
     let chunks = []
@@ -83,7 +83,7 @@ class Documentation extends Document {
       const start = match.index
       const end = start + match[0].length
       const id = match[1]
-      const url = this.linkProvider.getURL(id)
+      const url = this.linkProvider.getURL(id, hints)
       chunks.push(html.slice(lastIdx, start))
       chunks = chunks.concat('<a href="', url, '">', id, '</a>')
       lastIdx = end

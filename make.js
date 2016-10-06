@@ -1,9 +1,6 @@
 var b = require('substance-bundler')
-var bundleCSS = require('./.make/bundleCSS')
 var bundleJS = require('./.make/bundleJS')
-var fs = require('fs')
 var path = require('path')
-var glob = require('glob')
 
 b.task('substance', function() {
   b.make('substance')
@@ -32,7 +29,7 @@ b.task('vendor', function() {
 
 b.task('api', function() {
   b.js('./src/docgen.js', {
-    external: ['glob', 'fs', 'substance', {
+    external: ['glob', 'fs', 'path', 'substance', {
       global: 'vendor',
       path: path.resolve(__dirname, 'dist', 'vendor.js')
     }],

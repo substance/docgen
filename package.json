@@ -1,6 +1,6 @@
 {
   "name": "substance-docgen",
-  "version": "0.3.6",
+  "version": "0.4.0",
   "description": "Substance Documentation generator.",
   "main": "dist/docgen.js",
   "scripts": {
@@ -27,12 +27,11 @@
     "lodash": "^4.16.2",
     "minimatch": "^3.0.3",
     "node-sass": "^3.10.0",
-    "substance": "substance/substance#30fd72350b52a5d4201bd5e024fdabaa58f3f4f5",
+    "substance": "substance/substance#022efeaa43442c8a6cb76d47a8a89b57339b7af0",
     "substance-bundler": "^0.4.22"
   },
   "files": [
     "dist",
-    "bundleSources.js",
     "README.md"
   ],
   "dependencies": {
