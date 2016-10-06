@@ -212,7 +212,8 @@ class Walker {
         context.skip()
         break
       default:
-        console.warn('Unsupported node in %s at line %s', this.fileId, node.loc.start.line, node)
+        console.warn('Unsupported expression in %s at line %s column %s', this.fileId, node.loc.start.line, node.loc.start.column)
+        // console.log(node)
     }
   }
 
