@@ -6,17 +6,17 @@ import SourceLink from './SourceLinkComponent'
 class SignatureComponent extends Component {
 
   render($$) {
-    var el = $$('div').addClass('sc-signature')
-    var node = this.props.node
-    var params = node.params
+    const node = this.props.node
+    const linkProvider = this.context.linkProvider
+    const el = $$('div').addClass('sc-signature')
 
+    var params = node.params
     var info = Documentation.getNodeInfo(node)
     var visibility = node.isPrivate ? 'private ' : ''
     var args = map(params, 'name').join(', ')
 
     const decl = $$('a').addClass('se-declaration')
-      .attr({href: '#'})
-      .on('click', this.onClick)
+      .attr('href', linkProvider.getURL(node.id))
 
     if (node.isPrivate) {
       decl.append($$('span').addClass('se-visibility').append(visibility))
