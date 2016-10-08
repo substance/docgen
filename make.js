@@ -69,4 +69,4 @@ b.task('reader', ['clean', 'vendor', 'api'], function() {
 b.task('dev', ['clean', 'vendor', 'api', 'reader'])
 
 
-b.task('default', ['substance', 'clean', 'vendor', 'api', 'reader'])
+b.task('default', ['clean', 'vendor', 'api', 'reader'])
