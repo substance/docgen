@@ -1,5 +1,4 @@
-import forEach from 'lodash/forEach'
-import sortBy from 'lodash/sortBy'
+import forEach from 'substance/util/forEach'
 import MemberContainerComponent from './MemberContainerComponent'
 import CrossLink from './CrossLinkComponent'
 
@@ -27,7 +26,7 @@ class MemberIndexComponent extends MemberContainerComponent {
     var categories = node.getMemberCategories()
     var inheritedMembers = node.getInheritedMembers(config)
     forEach(inheritedMembers, function(members, group) {
-      members = sortBy(members, 'id')
+      members = members.sort(m => m.id)
       var cat = categories[group]
       var catEl = this.__renderMemberCategory__($$, cat, members)
       catEl.insertAt(0,

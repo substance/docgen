@@ -1,6 +1,7 @@
 import bundleDocumentation from './bundleDocumentation'
-import isPlainObject from 'lodash/isPlainObject'
-import forEach from 'lodash/forEach'
+import forEach from 'substance/util/forEach'
+import isNil from 'substance/util/isNil'
+import isString from 'substance/util/isString'
 
 const path = require('path')
 const fs = require('fs')
@@ -21,10 +22,10 @@ function bundle(bundler, params) {
   const dest = params.dest
   const mode = params.mode || 'json'
   let config, configFile
-  if (isPlainObject(params.config)) {
-    config = params.config
-  } else {
+  if (isString(params.config)) {
     configFile = params.config
+  } else {
+    config = params.config
   }
   const root = params.root || cwd
   let sources = src
@@ -85,7 +86,7 @@ function _getConfigJS(configFile) {
   const context = new vm.createContext(sandbox)
   script.runInContext(context)
   const result = sandbox.module.exports
-  if (!isPlainObject(result)) {
+  if (isNil(result)) {
     throw new Error('docgen configuration must export a configuration object.')
   }
   return result

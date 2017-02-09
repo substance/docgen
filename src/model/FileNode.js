@@ -15,7 +15,7 @@ class FileNode extends DocumentNode {
 
 Object.assign(FileNode.prototype, MemberContainerMixin)
 
-FileNode.type = 'file';
+FileNode.type = 'file-node';
 
 FileNode.define({
   api: 'id',

@@ -23,7 +23,7 @@ class DocumentationTOCProvider extends TOCProvider {
           entry.level = node.level
           level = node.level
           break
-        case 'file':
+        case 'file-node':
           // FileNodes do not appear in the TOC, instead their content is flattened
           queue = node.members.concat(queue)
           continue

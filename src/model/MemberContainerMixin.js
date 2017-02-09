@@ -1,5 +1,5 @@
-import filter from 'lodash/filter'
-import forEach from 'lodash/forEach'
+import filter from 'substance/util/filter'
+import forEach from 'substance/util/forEach'
 
 let MemberContainerMixin = {
 

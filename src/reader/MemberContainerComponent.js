@@ -1,5 +1,5 @@
 import { Component, UnsupportedNodeComponent } from 'substance'
-import forEach from 'lodash/each'
+import forEach from 'substance/util/forEach'
 
 class MemberContainerComponent extends Component {
 
@@ -18,8 +18,6 @@ class MemberContainerComponent extends Component {
   _renderMemberCategory($$, cat, catMembers) {
     var catEl = $$('div').addClass('se-member-category')
     var membersEl = $$('div').addClass('se-members')
-    // Note: using lodash each, so that we are independent
-    // of catMembers being an array or an object.
     forEach(catMembers, function(memberNode) {
       membersEl.append(this._renderMember($$, memberNode))
     }.bind(this))

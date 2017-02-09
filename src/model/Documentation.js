@@ -1,5 +1,5 @@
 import { Document, Configurator } from 'substance'
-import map from 'lodash/map'
+import map from 'substance/util/map'
 import MemberIndex from './MemberIndex'
 import LookupTable from './LookupTable'
 import DocumentationPackage from './DocumentationPackage'

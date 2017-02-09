@@ -19,6 +19,10 @@ class MemberIndex extends NodeIndex {
     return node.hasParent()
   }
 
+  get(...args) {
+    return this.index.get(...args)
+  }
+
   _getPath(node, parentId) {
     var doc = this.doc
     parentId = parentId || node.parent
@@ -72,6 +76,10 @@ class MemberIndex extends NodeIndex {
 
   clone() {
     return new MemberIndex(this.doc)
+  }
+
+  _clear() {
+    this.index = new TreeIndex()
   }
 
 }

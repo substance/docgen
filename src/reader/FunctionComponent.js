@@ -1,5 +1,5 @@
 import { Component } from 'substance'
-import map from 'lodash/map'
+import map from 'substance/util/map'
 import Heading from './HeadingComponent'
 import Params from './ParamsComponent'
 import Example from './ExampleComponent'

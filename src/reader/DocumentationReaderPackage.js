@@ -20,7 +20,7 @@ export default {
     config.addComponent('page', ContentComponent)
     config.addComponent('api-page', APIPageComponent)
     config.addComponent('section', ContentComponent)
-    config.addComponent('file', FileComponent)
+    config.addComponent('file-node', FileComponent)
     config.addComponent('function', FunctionComponent)
     config.addComponent('class', ClassComponent)
     config.addComponent('ctor', ConstructorComponent)

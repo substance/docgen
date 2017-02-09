@@ -1,5 +1,4 @@
 import ClassNode from './ClassNode'
-import find from 'lodash/find'
 
 class SubstanceClassNode extends ClassNode {
   // Defaults to the regular type property

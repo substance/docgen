@@ -1,7 +1,7 @@
 import { Configurator, DefaultDOMElement } from 'substance'
 import DocumentationReader from '../reader/DocumentationReader'
 import DocumentationReaderPackage from '../reader/DocumentationReaderPackage'
-import forEach from 'lodash/forEach'
+import forEach from 'substance/util/forEach'
 
 function buildSite(doc) {
   const configurator = new Configurator().import(DocumentationReaderPackage)

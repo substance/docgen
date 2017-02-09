@@ -106,6 +106,10 @@ class LookupTable extends NodeIndex {
     return candidates[0]
   }
 
+  _clear() {
+    this.table = new TreeIndex.Arrays()
+  }
+
 }
 
 export default LookupTable

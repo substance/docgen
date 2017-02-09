@@ -1,9 +1,7 @@
 var b = require('substance-bundler')
-var bundleJS = require('./.make/bundleJS')
-var path = require('path')
 
-b.task('substance', function() {
-  b.make('substance')
+b.task('substance:css', function() {
+  b.make('substance', 'css')
 })
 
 b.task('clean', function() {
@@ -12,61 +10,40 @@ b.task('clean', function() {
 })
 
 b.task('vendor', function() {
-  b.custom('Bundling vendor.js', {
-    src: './.make/vendor.js',
+  b.browserify('./.make/vendor.js', {
     dest: './dist/vendor.js',
-    execute: function() {
-      return bundleJS({
-        src: './.make/vendor.js',
-        dest: './dist/vendor.js',
-        browserify: {
-          standalone: 'vendor'
-        }
-      })
-    }
+    exports: ['acorn','dox','commonmark','estreeWalker','highlightjs','minimatch']
   })
 })
 
 b.task('api', function() {
   b.js('./src/docgen.js', {
-    resolve: { jsnext: ['substance'] },
-    external: ['glob', 'fs', 'path', 'substance-cheerio', {
-      global: 'vendor',
-      path: path.resolve(__dirname, 'dist', 'vendor.js')
-    }],
-    commonjs: { include: [
-      '/**/node_modules/lodash/**'
-    ]},
-    targets: [{
+    target: {
       dest: './dist/docgen.js',
       format: 'cjs', moduleName: 'docgen'
-    }]
+    },
+    external: [
+      'glob', 'fs', 'path',
+    ],
+    commonjs: true,
+    buble: true
   })
 })
 
 var READER = "./dist/reader/"
-b.task('reader', ['clean', 'vendor', 'api'], function() {
+b.task('reader', ['clean', 'substance:css', 'vendor', 'api'], function() {
   b.copy('./src/index.html', READER)
   b.copy('./node_modules/substance/dist', READER+'substance')
   b.copy('./node_modules/highlight.js/styles/github.css', READER+'github.css')
   b.copy('./src/reader.css', READER)
   b.copy('./dist/vendor.js', READER)
   b.js('./src/reader.js', {
-    external: ['substance', {
-      global: 'vendor',
-      path: path.resolve(__dirname, 'dist', 'vendor.js')
-    }],
-    commonjs: { include: [
-      'node_modules/lodash/**'
-    ]},
-    targets: [{
+    target: {
       dest: READER+'reader.js',
       format: 'umd', moduleName: 'reader'
-    }]
+    },
+    commonjs: true,
   })
 })
-
-b.task('dev', ['clean', 'vendor', 'api', 'reader'])
-
 
 b.task('default', ['clean', 'vendor', 'api', 'reader'])
