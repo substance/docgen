@@ -4,7 +4,8 @@
   "description": "Substance Documentation generator.",
   "main": "dist/docgen.js",
   "scripts": {
-    "pre-publish": "node make"
+    "build": "node make",
+    "prepublish": "node make"
   },
   "repository": {
     "type": "git",
