@@ -7,7 +7,7 @@ function buildSite(doc) {
   const configurator = new Configurator().import(DocumentationReaderPackage)
   const linkProvider = new StaticLinkProvider(doc)
   doc.linkProvider = linkProvider
-  const root = DefaultDOMElement.createElement('div')
+  const root = DefaultDOMElement.createDocument('html').createElement('div')
   const output = {}
   // render the reader in default state
   let dest = 'index.html'
