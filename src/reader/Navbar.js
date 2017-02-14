@@ -7,7 +7,7 @@ class Navbar extends Component {
     const el = $$('div').addClass('sc-navbar')
 
     const title = $$('div').addClass('se-title').append(
-      $$('a').attr('href', linkProvider.getURL('about')).append(this.props.title)
+      $$('a').attr('href', linkProvider.getURL('getting-started')).append(this.props.title)
     )
     el.append(title)
 
